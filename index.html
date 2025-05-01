@@ -679,98 +679,8 @@
                     );
                 }
             }
-            /* WEB Socket...
-                                                function initWebSocket() {
-                                                    console.log("Trying to open a WebSocket connection...");
-                                                    websocket = new WebSocket(gateway);
-                                                    websocket.onopen = onOpen;
-                                                    websocket.onclose = onClose;
-                                                    websocket.onmessage = onMessage; // <-- add this line
-                                                }
-                                                function onOpen(event) {
-                                                    console.log("Connection opened");
-                                                }
-                                                function onClose(event) {
-                                                    console.log("Connection closed");
-                                                    setTimeout(initWebSocket, 2000);
-                                                }
-                                                function onMessage(event) {
-                                                    var state;
-                                                    if (event.data instanceof Blob) {
-                                                        var data = null;
-                                                        blob = event.data;
-                                                        let fileReader = new FileReader();
-                                                        fileReader.readAsArrayBuffer(blob);
-                                                        fileReader.onload = function (event) {
-                                                            let arrayBuffer = fileReader.result;
-                                                            var uint16Array = new Uint16Array(arrayBuffer);
-                                                            let dataView = new DataView(arrayBuffer);
-                                                            //big value (32bit is set) be a negative!!!!!
-                                                            Vin_RMS = uint16Array[2] << 16;
-                                                            Vin_RMS += uint16Array[1];
-                                                            Vin_RMS_cnt = uint16Array[3]; //dataView.getUint16(3);
-                                                            Iin_RMS = uint16Array[5] << 16;
-                                                            Iin_RMS += uint16Array[4];
-                                                            Iin_RMS_cnt = uint16Array[6]; //arrayBuffer.Int16Array[6];
-                                                            Vout_RMS_popu = uint16Array[8] << 16;
-                                                            Vout_RMS_popu += uint16Array[7];
-                                                            Vout_RMS_cnt = uint16Array[9]; //arrayBuffer.Int16Array(9);
-                                                            Iout_RMS_popu = uint16Array[11] << 16;
-                                                            Iout_RMS_popu += uint16Array[10];
-                                                            Iout_RMS_cnt = uint16Array[12]; //arrayBuffer.Int16Array(12);
-                                                        };
-                                                    } else {
-                                                        if (event.data.search("Vout=") != -1) {
-                                                            //
-                                                            str = event.data.replace("Vout=", "");
-                                                            Vout_RMS = parseInt(str);
-                                                            updateVout(Vout_RMS);
-                                                            //       document.getElementById('vout').innerHTML = str;
-                                                        }
-                                                        if (event.data.search("Iout=") != -1) {
-                                                            //
-                                                            str = event.data.replace("Iout=", "");
-                                                            Iout_RMS = parseInt(str);
-                                                            updateIout(Iout_RMS);
-                                                            //        document.getElementById('iout').innerHTML = str;
-                                                        }
-                                                        if (event.data == "1") {
-                                                            state = "ON";
-                                                            document.getElementById("state").innerHTML = state;
-                                                        } else if (event.data == "0") {
-                                                            state = "OFF";
-                                                            document.getElementById("state").innerHTML = state;
-                                                        }
-                                                    }
-                                                }
-                                                function onLoad(event) {
-                                                    //initWebSocket();
-                                                    initButton();
-
-                                                    load_Vout_Vref();
-                                                    updateUout(Vout_RMS);
-                                                    updateIout(Iout_RMS);
-                                                }
-                                    */
             function updateIout(Iout_pougay) {
-                /*
-                                        var a=Iout_pougay;
-                                        var index=a-1792;
-                                        if (index<0)index=0;
-                                        a=index;
-                                        index>>=6;
-                                        var b=((TabIpop_Ima[index+1]-TabIpop_Ima[index])/64)*(a&63)+TabIpop_Ima[index];
-                                        b=b/100;
-                                        Iout_A=b;
-                                        */
                 var b = Iadc_Ima(Iout_pougay);
-                // if (b > 1) {
-                //     document.getElementById("iout").innerHTML = b; //.toFixed(2);
-                // } else {
-                //     document.getElementById("iout").innerHTML = "< 1.0";
-                // }
-                // document.getElementById("iout_pop").innerHTML =
-                //     Iout_pougay + "pop";
             }
 
             function Uref_mV_TO_pop(tmp_ref_mV) {
@@ -1439,7 +1349,12 @@
                 return navigator.bluetooth
                     .requestDevice({
                         //    filters: [{services: [0xFFE0]}],
-                        filters: [{ services: [0xfff0] }],
+                        filters: [
+                            {
+                                name: "CH9143BLE2U",
+                                // services: [0xfff0]
+                            },
+                        ],
                     })
                     .then((device) => {
                         log('"' + device.name + '" bluetooth device selected');
