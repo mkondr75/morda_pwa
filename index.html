@@ -1343,31 +1343,52 @@
             }
 
             // Запрос выбора Bluetooth устройства
-            function requestBluetoothDevice() {
-                log("Requesting bluetooth device...");
+            // function requestBluetoothDevice() {
+            //     log("Requesting bluetooth device...");
+            //     return navigator.bluetooth
+            //         .requestDevice({
+            //             //    filters: [{services: [0xFFE0]}],
+            //             filters: [
+            //                 {
+            //                     name: "CH9143BLE2U",
+            //                     // services: [0xfff0]
+            //                 },
+            //             ],
+            //         })
+            //         .then((device) => {
+            //             log('"' + device.name + '" bluetooth device selected');
+            //             deviceCache = device;
+            //             deviceCache.addEventListener(
+            //                 "gattserverdisconnected",
+            //                 handleDisconnection
+            //             );
 
+            //             return deviceCache;
+            //         });
+            // }
+            function requestBluetoothDevice() {
                 return navigator.bluetooth
                     .requestDevice({
-                        //    filters: [{services: [0xFFE0]}],
                         filters: [
                             {
                                 name: "CH9143BLE2U",
-                                // services: [0xfff0]
+                                //services: [0xfff0, 0x1801]
                             },
                         ],
+                        optionalServices: [0xfff0],
                     })
                     .then((device) => {
-                        log('"' + device.name + '" bluetooth device selected');
+                        log(
+                            '"' + device.name + '" bluetooth device selected\n'
+                        );
                         deviceCache = device;
                         deviceCache.addEventListener(
                             "gattserverdisconnected",
                             handleDisconnection
                         );
-
                         return deviceCache;
                     });
             }
-
             // Обработчик разъединения
             function handleDisconnection(event) {
                 let device = event.target;
