@@ -1,0 +1,1988 @@
+<html>
+    <head>
+        <title>40V 40A UltraLOWerror STATION</title>
+        <meta charset="utf-8" />
+        <!-- <link rel="stylesheet" href="css/styles.css"> -->
+        <link rel="manifest" href="manifest.json" />
+        <link rel="icon" href="favicon.ico" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--... 
+    <link href="styles.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+    -->
+        <meta name="theme-color" content="#ffffff" />
+        <style>
+            html {
+                font-family: Arial, Helvetica, sans-serif;
+                text-align: center;
+            }
+            h1 {
+                font-size: 1.8rem;
+                color: #143642;
+            }
+            h2 {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #143642;
+            }
+            .topnav {
+                display: unset; /*none remove tag from display*/
+                /*display: none; none -  remove tag from display*/
+                visibility: unset; /*hide tag bat reserve space for him*/
+                overflow: hidden;
+                background-color: #143642;
+            }
+            body {
+                margin: 0;
+            }
+            .content {
+                padding: 30px;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            .card {
+                background-color: #f8f7f9;
+                box-shadow: 2px 2px 12px 1px rgba(140, 140, 140, 0.5);
+                padding-top: 10px;
+                padding-bottom: 20px;
+            }
+            .button {
+                padding: 15px 15px;
+                font-size: 24px;
+                text-align: center;
+                outline: none;
+                color: #fff;
+                background-color: #0f8b8d;
+                border: none;
+                border-radius: 5px;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
+            /*.button:hover {background-color: #0f8b8d}*/
+            .button:active {
+                background-color: #0f8b8d;
+                box-shadow: 2 2px #cdcdcd;
+                transform: translateY(2px);
+            }
+            .state {
+                font-size: 1.5rem;
+                color: #8c8c8c;
+                font-weight: bold;
+            }
+            .VstateGet {
+                font-size: 1.5rem;
+                color: #a32c2c;
+                font-weight: bold;
+            }
+            .table {
+                margin: 0 auto;
+            }
+            .setup {
+                display: unset; /*none remove tag from display*/
+            }
+            .customcb {
+                width: 27px;
+                height: 27px;
+                margin: 2px 0 2px 0;
+                background: #ddd;
+                border-radius: 100%;
+                position: relative;
+                appearance: none;
+                -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+                -webkit-appearance: none;
+                -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+                /* background-color: white;
+                border-radius: 50%;
+                vertical-align: middle; */
+                border: 1px solid #ddd;
+                outline: none;
+                /* cursor: pointer; */
+            }
+            .red.customcb input[type="checkbox"]:checked + label.inner {
+                background: red;
+            }
+        </style>
+    </head>
+    <body>
+        <!--.50hz..-->
+        <div class="topnav" , id="topnav">
+            <h1>40V 40A UltraLOWerror STATION</h1>
+            <input type="checkbox" id="chBox1" onchange="DispSetup1()" />
+            <input type="checkbox" id="chBox2" onchange="DispSetup2()" />
+            <input
+                type="checkbox"
+                id="chBoxTerminal"
+                onchange="DispTerminal()"
+            />
+        </div>
+        <div class="content">
+            <div class="card">
+                <!-- <h2>Output - GPIO 2</h2> -->
+                <p id="Tester" class="state">
+                    Tester: <span id="state">%STATE%</span> V
+                    <span id="state_err">err%</span>
+                </p>
+                <p class="state">
+                    <!-- <span style="float: left"> -->
+                    <span style="float: left">
+                        <input
+                            class="customcb"
+                            style="float: left; background: red"
+                            type="checkbox"
+                            id="chBoxTopNav"
+                            onchange="DispTopNav()"
+                        />
+                    </span>
+                    <span style="float: left">
+                        <input
+                            class="customcb"
+                            style="float: left; background: rgb(0, 255, 145)"
+                            type="checkbox"
+                            id="chBoxGraf"
+                            onchange="DispGraf()"
+                        />
+                    </span>
+                    Uin dc: <span id="Uin_dc">000.0</span> V
+                    <!-- <span id="state_err">err%</span> -->
+                </p>
+                <!-- <p><button id="button" class="button">Toggle</button></p> -->
+                <p class="VstateGet">
+                    V_GET: <span id="get_vout">000,00 V </span>
+                    <span id="get_vout_pop">0000 pop </span>
+                    <span id="Err_vout_pop">0.0 % </span>
+                </p>
+                <p class="state">
+                    V_SET: <span id="vout">000,00 V </span>
+                    <span id="vout_pop">0000 pop </span>
+                </p>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="-1,0"
+                                ,
+                                onclick="setVoutMV_M100();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="-0,1"
+                                ,
+                                onclick="setVoutMV_M010();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="-0,01"
+                                ,
+                                onclick="setVoutMV_M001();"
+                            />
+                        </td>
+                        <td>
+                            <p class="state">
+                                SET Vout: <span id="Vout_mv">5.00</span>
+                            </p>
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="+0,01"
+                                ,
+                                onclick="setVoutMV_P001();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="+0,1"
+                                ,
+                                onclick="setVoutMV_P010();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="+1,0"
+                                ,
+                                onclick="setVoutMV_P100();"
+                            />
+                        </td>
+                    </tr>
+                </table>
+                <!-- <table>
+                    <tr>
+                        <td>
+                            <input
+                                type="submit"
+                                ,
+                                value="Get"
+                                ,
+                                onclick="GetErr()"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="submit"
+                                ,
+                                value="-10"
+                                ,
+                                onclick="SetErr_M010();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="submit"
+                                ,
+                                value="-1,0"
+                                ,
+                                onclick="SetErr_M100();"
+                            />
+                        </td>
+                        <td>
+                            <p class="state">
+                                Table: <span id="Table_err">__ __</span>
+                            </p>
+                        </td>
+                        <td>
+                            <input
+                                type="submit"
+                                ,
+                                value="+1,0"
+                                ,
+                                onclick="SetErr_P100();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="submit"
+                                ,
+                                value="+10"
+                                ,
+                                onclick="SetErr_P010();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                type="submit"
+                                ,
+                                value="Prn"
+                                ,
+                                onclick="PrnErr()"
+                            />
+                        </td>
+                    </tr>
+                </table> -->
+                <p class="state">
+                    IoutGET: <span id="iout">000,00</span> A
+                    <span id="iout_pop">0000 pop </span>
+                </p>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="-1,0"
+                                ,
+                                onclick="setIoutMA_M100();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="-0,1"
+                                ,
+                                onclick="setIoutMA_M010();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="-0,01"
+                                ,
+                                onclick="setIoutMA_M001();"
+                            />
+                        </td>
+                        <td>
+                            <p class="state">
+                                SET Iout: <span id="Iout_ma">33.00</span>
+                            </p>
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="+0,01"
+                                ,
+                                onclick="setIoutMA_P001();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="+0,1"
+                                ,
+                                onclick="setIoutMA_P010();"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                class="button"
+                                ,
+                                type="submit"
+                                ,
+                                value="+1,0"
+                                ,
+                                onclick="setIoutMA_P100();"
+                            />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--.50hz..-->
+        <div class="setup" id="Setup">
+            <div>
+                <p>interface2: sytem+ch9143(50:54:7B:56:C1:FC)-> to web:</p>
+            </div>
+            <button id="connect" type="button">Connect</button>
+            <button id="stop" type="button">Stop</button>
+            <button id="disconnect" type="button">Disconnect</button>
+            <button id="clear" type="button">Clear</button>
+            <form id="send-form">
+                <input id="input" type="text" />
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        <div class="setup" id="Setup2">
+            <div>
+                <p>interface1: zt-703+ch9143(50:54:7B:56:C1:FE)</p>
+                <!-- <p>interface1: aneng_V05B(FC:58:FA:BB:C1:CC)</p> -->
+            </div>
+            <!-- <table>
+                <tr>
+                    <td><p>A1=HEX DEC</p></td>
+                    <td><p>A2=HEX DEC</p></td>
+                    <td><p>A3=HEX DEC</p></td>
+                    <td><p>A5=HEX DEC</p></td>
+                    <td><p>DutyHEX DEC</p></td>
+                </tr>
+                <tr>
+                    <td><div id="A1_HTML">0000.0</div></td>
+                    <td><div id="A2_HTML">0000.0</div></td>
+                    <td><div id="A3_HTML">0000.0</div></td>
+                    <td><div id="A5_HTML">0000.0</div></td>
+                    <td><div id="Duty_HTML">0000.0</div></td>
+                    <td><div id="UO_HTML">0000.0</div></td>
+                </tr>
+            </table> -->
+            <button id="connect1" type="button">Connect</button>
+            <button id="stop1" type="button">Stop</button>
+            <button id="disconnect1" type="button">Disconnect</button>
+        </div>
+        <!-- <div class="setup" id="SetTable">
+            <div>
+                <p>read table value ADC5popTo_mV</p>
+            </div>
+        </div> -->
+        <div
+            class="content"
+            id="Graf"
+            style="position: relative; height: 80vh; width: 100%"
+        >
+            <!-- <p>Graf</p> -->
+            <canvas id="idCanv" tabindex="1"></canvas>
+        </div>
+
+        <div id="terminal">terminal</div>
+
+        <!--... 
+<script src="main.js"></script>
+<script src="companion.js" data-service-worker="sw.js"></script>
+-->
+        <script src="app.js"></script>
+        <script src="chart.js"></script>
+        <!-- <script src="index.js"></script> -->
+        <script>
+            ///////////////CHART
+            let xData = [];
+            let yData0 = [];
+            let yData1 = [];
+            let yData2 = [];
+
+            //var gateway = `ws://192.168.5.22/ws`;
+            //var websocket;
+            function DispGraf() {
+                var tmp = document.getElementById("chBoxGraf");
+                if (tmp.checked)
+                    document.getElementById("Graf").style.display = "none";
+                //unset
+                else document.getElementById("Graf").style.display = "unset";
+            }
+            function DispTopNav() {
+                var tmp = document.getElementById("chBoxTopNav");
+                if (tmp.checked)
+                    document.getElementById("topnav").style.display = "none";
+                //unset
+                else document.getElementById("topnav").style.display = "unset";
+            }
+
+            function DispTerminal() {
+                var tmp = document.getElementById("chBoxTerminal");
+                if (tmp.checked)
+                    document.getElementById("terminal").style.display = "none";
+                //unset
+                else
+                    document.getElementById("terminal").style.display = "unset";
+            }
+
+            function DispSetup1() {
+                var tmp = document.getElementById("chBox1");
+                if (tmp.checked)
+                    document.getElementById("Setup").style.display = "none";
+                //unset
+                else document.getElementById("Setup").style.display = "unset";
+            }
+
+            function DispSetup2() {
+                var tmp = document.getElementById("chBox2");
+                if (tmp.checked) {
+                    document.getElementById("Tester").style.display = "none";
+                    document.getElementById("Setup2").style.display = "none";
+                }
+                //unset
+                else {
+                    document.getElementById("Tester").style.display = "unset";
+                    document.getElementById("Setup2").style.display = "unset";
+                }
+            }
+            var Vout_RMS_popu,
+                Vout_RMS = 0,
+                Iout_RMS_popu,
+                Iout_RMS = 0,
+                Vin_RMS,
+                Iin_RMS,
+                Vout_RMS_cnt,
+                Iout_RMS_cnt,
+                Vin_RMS_cnt,
+                Iin_RMS_cnt;
+            var TabV_RMS = new Array();
+            var TabIpop_Ima = new Array();
+            var TabI_Iref = new Array();
+            var TabV_Vref = new Array();
+            var Vout_V;
+            var Iout_A;
+            window.addEventListener("load", onLoad);
+            function onLoad(event) {
+                ChartOnLoad();
+                //                initButton();
+                interpolation();
+            }
+            function GetErr(Step) {
+                if (isNaN(Step)) {
+                    Step = 0;
+                }
+                var tmp = document.getElementById("Vout_mv").innerHTML;
+                var Fild = document.getElementById("Table_err");
+                var Out1, Out2;
+                tmp = parseFloat(tmp);
+                tmp = tmp.toFixed(3);
+                var tmp_ref_mV = tmp * 1000;
+                var ofset = (tmp_ref_mV - 0) >> 8;
+                if (ofset < Data_mV_ToADC5pop.length - 1) {
+                    Out1 = Data_mV_ToADC5pop[ofset] + Step;
+                    Out2 = Data_mV_ToADC5pop[ofset + 1] + Step;
+                    Data_mV_ToADC5pop[ofset] += Step;
+                    Data_mV_ToADC5pop[ofset + 1] += Step;
+                }
+                Fild.innerHTML = " " + ofset + " " + Out1 + " " + Out2 + "  ";
+                setVoutMVtoPOP(0);
+            }
+            function SetErr_M100() {
+                GetErr(-1);
+            }
+            function SetErr_M010() {
+                GetErr(-10);
+            }
+            function SetErr_P100() {
+                GetErr(1);
+            }
+            function SetErr_P010() {
+                GetErr(10);
+            }
+            function PrnErr() {
+                for (i = Data_mV_ToADC5pop.length - 1; i >= 0; i--)
+                    log(Data_mV_ToADC5pop[i] + ",\n");
+            }
+            function setVoutMV_M001() {
+                // //to Graf Chart
+                // data.labels.shift();
+                // data.labels.push(data.labels[data.labels.length - 1] + 1);
+                // //                data.datasets[0].data = yData1;
+                // chart.update();
+                // //to Graf Chart
+
+                setVoutMVtoPOP(-0.01);
+            }
+            function setVoutMV_M010() {
+                setVoutMVtoPOP(-0.1);
+            }
+            function setVoutMV_M100() {
+                setVoutMVtoPOP(-1.0);
+            }
+            function setVoutMV_P001() {
+                setVoutMVtoPOP(0.01);
+            }
+            function setVoutMV_P010() {
+                setVoutMVtoPOP(0.1);
+            }
+            function setVoutMV_P100() {
+                setVoutMVtoPOP(1.0);
+            }
+            function setVoutMVtoPOP(step) {
+                var tmp = document.getElementById("Vout_mv").innerHTML;
+                tmp = parseFloat(tmp) + step;
+                if (tmp <= 0.3) tmp = 0.3;
+                if (tmp >= 33) tmp = 33;
+                var a = tmp;
+                if (a > 0.3)
+                    document.getElementById("vout").innerHTML =
+                        a.toFixed(2) + " V";
+                else document.getElementById("vout").innerHTML = "< 0.3V";
+                tmp = tmp.toFixed(3);
+                document.getElementById("Vout_mv").innerHTML = tmp;
+                var tmp_ref_mV = tmp * 1000;
+                tmp_ref_mV = parseInt(tmp_ref_mV.toFixed(0));
+                if (tmp_ref_mV > 0x1000)
+                    send(
+                        "W0A" +
+                            tmp_ref_mV.toString(16).toUpperCase() +
+                            "l07\r\n"
+                    );
+                else if (tmp_ref_mV > 0x100) {
+                    send(
+                        "W0A" +
+                            "0" +
+                            tmp_ref_mV.toString(16).toUpperCase() +
+                            "l07\r\n"
+                    );
+                } else {
+                    if (tmp_ref_mV > 0x10) {
+                        send(
+                            "W0A" +
+                                "00" +
+                                tmp_ref_mV.toString(16).toUpperCase() +
+                                "l07\r\n"
+                        );
+                    } else {
+                        send(
+                            "W0A" +
+                                "000" +
+                                tmp_ref_mV.toString(16).toUpperCase() +
+                                "l07\r\n"
+                        );
+                    }
+                }
+                //test L05
+                // var Uref_pop = parseInt(Uref_mV_TO_pop(tmp_ref_mV));
+                // send("W06" + Uref_pop.toString(16).toUpperCase() + "l05\r\n");
+            }
+            function setIoutMA_M001() {
+                setIoutMAtoPOP(-0.01);
+            }
+            function setIoutMA_M010() {
+                setIoutMAtoPOP(-0.1);
+            }
+            function setIoutMA_M100() {
+                setIoutMAtoPOP(-1.0);
+            }
+            function setIoutMA_P001() {
+                setIoutMAtoPOP(0.01);
+            }
+            function setIoutMA_P010() {
+                setIoutMAtoPOP(0.1);
+            }
+            function setIoutMA_P100() {
+                setIoutMAtoPOP(1.0);
+            }
+            function setIoutMAtoPOP(step) {
+                var tmp = document.getElementById("Iout_ma").innerHTML;
+                tmp = parseFloat(tmp) + step;
+                if (tmp < 0.3) tmp = 0.3; //предел по току низ
+                if (tmp > 33) tmp = 33; //предел по току верх
+                tmp = tmp.toFixed(2);
+                document.getElementById("Iout_ma").innerHTML = tmp;
+                var tmp_ref = tmp * 1000;
+                tmp_ref = parseInt(tmp_ref.toFixed(0));
+                if (tmp_ref > 0x1000)
+                    send(
+                        "W0C" + tmp_ref.toString(16).toUpperCase() + "l08\r\n"
+                    );
+                else if (tmp_ref > 0x100) {
+                    send(
+                        "W0C" +
+                            "0" +
+                            tmp_ref.toString(16).toUpperCase() +
+                            "l08\r\n"
+                    );
+                } else {
+                    send(
+                        "W0C" +
+                            "00" +
+                            tmp_ref.toString(16).toUpperCase() +
+                            "l08\r\n"
+                    );
+                }
+            }
+            /* WEB Socket...
+                                                function initWebSocket() {
+                                                    console.log("Trying to open a WebSocket connection...");
+                                                    websocket = new WebSocket(gateway);
+                                                    websocket.onopen = onOpen;
+                                                    websocket.onclose = onClose;
+                                                    websocket.onmessage = onMessage; // <-- add this line
+                                                }
+                                                function onOpen(event) {
+                                                    console.log("Connection opened");
+                                                }
+                                                function onClose(event) {
+                                                    console.log("Connection closed");
+                                                    setTimeout(initWebSocket, 2000);
+                                                }
+                                                function onMessage(event) {
+                                                    var state;
+                                                    if (event.data instanceof Blob) {
+                                                        var data = null;
+                                                        blob = event.data;
+                                                        let fileReader = new FileReader();
+                                                        fileReader.readAsArrayBuffer(blob);
+                                                        fileReader.onload = function (event) {
+                                                            let arrayBuffer = fileReader.result;
+                                                            var uint16Array = new Uint16Array(arrayBuffer);
+                                                            let dataView = new DataView(arrayBuffer);
+                                                            //big value (32bit is set) be a negative!!!!!
+                                                            Vin_RMS = uint16Array[2] << 16;
+                                                            Vin_RMS += uint16Array[1];
+                                                            Vin_RMS_cnt = uint16Array[3]; //dataView.getUint16(3);
+                                                            Iin_RMS = uint16Array[5] << 16;
+                                                            Iin_RMS += uint16Array[4];
+                                                            Iin_RMS_cnt = uint16Array[6]; //arrayBuffer.Int16Array[6];
+                                                            Vout_RMS_popu = uint16Array[8] << 16;
+                                                            Vout_RMS_popu += uint16Array[7];
+                                                            Vout_RMS_cnt = uint16Array[9]; //arrayBuffer.Int16Array(9);
+                                                            Iout_RMS_popu = uint16Array[11] << 16;
+                                                            Iout_RMS_popu += uint16Array[10];
+                                                            Iout_RMS_cnt = uint16Array[12]; //arrayBuffer.Int16Array(12);
+                                                        };
+                                                    } else {
+                                                        if (event.data.search("Vout=") != -1) {
+                                                            //
+                                                            str = event.data.replace("Vout=", "");
+                                                            Vout_RMS = parseInt(str);
+                                                            updateVout(Vout_RMS);
+                                                            //       document.getElementById('vout').innerHTML = str;
+                                                        }
+                                                        if (event.data.search("Iout=") != -1) {
+                                                            //
+                                                            str = event.data.replace("Iout=", "");
+                                                            Iout_RMS = parseInt(str);
+                                                            updateIout(Iout_RMS);
+                                                            //        document.getElementById('iout').innerHTML = str;
+                                                        }
+                                                        if (event.data == "1") {
+                                                            state = "ON";
+                                                            document.getElementById("state").innerHTML = state;
+                                                        } else if (event.data == "0") {
+                                                            state = "OFF";
+                                                            document.getElementById("state").innerHTML = state;
+                                                        }
+                                                    }
+                                                }
+                                                function onLoad(event) {
+                                                    //initWebSocket();
+                                                    initButton();
+
+                                                    load_Vout_Vref();
+                                                    updateUout(Vout_RMS);
+                                                    updateIout(Iout_RMS);
+                                                }
+                                    */
+            function updateIout(Iout_pougay) {
+                /*
+                                        var a=Iout_pougay;
+                                        var index=a-1792;
+                                        if (index<0)index=0;
+                                        a=index;
+                                        index>>=6;
+                                        var b=((TabIpop_Ima[index+1]-TabIpop_Ima[index])/64)*(a&63)+TabIpop_Ima[index];
+                                        b=b/100;
+                                        Iout_A=b;
+                                        */
+                var b = Iadc_Ima(Iout_pougay);
+                // if (b > 1) {
+                //     document.getElementById("iout").innerHTML = b; //.toFixed(2);
+                // } else {
+                //     document.getElementById("iout").innerHTML = "< 1.0";
+                // }
+                // document.getElementById("iout_pop").innerHTML =
+                //     Iout_pougay + "pop";
+            }
+
+            function Uref_mV_TO_pop(tmp_ref_mV) {
+                // var a = Uadc_Umv(Vout_pougay);
+                var a = tmp_ref_mV / 1000;
+                var Vout_pougay, tmp_offset;
+                if (a > 3.0)
+                    document.getElementById("vout").innerHTML =
+                        a.toFixed(2) + " V";
+                else document.getElementById("vout").innerHTML = "< 3.0V";
+                tmp_offset = tmp_ref_mV - 0; // / 256).toFixed(0);
+                var vout; // = ADC5popTo_mV[(tmp >> 10)];
+                if (tmp_offset >= 3000) {
+                    var ofset = (tmp_offset - 0) >> 8;
+                    if (ofset < 160) {
+                        vout = Data_mV_ToADC5pop[ofset];
+                        //      uint32_t calcul2 = (ADC5popTo_mV[ofset + 1] - ADC5popTo_mV[ofset]) * (tmp - (tmp & 256));
+                        var calcul =
+                            Data_mV_ToADC5pop[ofset + 1] -
+                            Data_mV_ToADC5pop[ofset];
+                        var calcul1 = tmp_offset & 255;
+                        var calcul2 = calcul1 * calcul;
+                        vout += calcul2 >> 8;
+                    } else vout = 33333;
+                } else vout = 3222;
+
+                document.getElementById("vout_pop").innerHTML =
+                    vout.toFixed(0) + "pop";
+                return vout;
+                /////////////////////////////////
+                // uint32_t vout; // = ADC5popTo_mV[(tmp >> 10)];
+                //   if (tmp > 0x1100)
+                //   {
+                //     uint16_t ofset = ((tmp - 0x1100) >> 8);
+                //     if (ofset < 160)
+                //     {
+                //       vout = ADC5popTo_mV[ofset];
+                //       //      uint32_t calcul2 = (ADC5popTo_mV[ofset + 1] - ADC5popTo_mV[ofset]) * (tmp - (tmp & 256));
+                //       uint32_t calcul = (ADC5popTo_mV[ofset + 1] - ADC5popTo_mV[ofset]);
+                //       uint32_t calcul1 = ((tmp & 255));
+                //       uint32_t calcul2 = calcul1 * calcul;
+                //       vout += (calcul2 >> 8);
+                //     }
+                //     else
+                //       vout = 33333;
+                //   }
+                //   else
+                //     vout = 3222;
+                /////////////////////////////////////
+            }
+            function updateUout(Vout_pougay) {
+                /*    var a=Vout_pougay;
+                                        var b=(TabV_RMS[(Vout_pougay>>8)+1]-TabV_RMS[Vout_pougay>>8]);
+                                        b/=256;
+                                        b*=(256-(Vout_pougay&255));
+                                        if(b>0)
+                                          b=TabV_RMS[(Vout_pougay>>8)+1]-b;
+                                        else
+                                          b=TabV_RMS[(Vout_pougay>>8)+1]+(-b);
+                                        a=a*b;
+                                        a=a/100;
+                                        Vout_V=a;
+                                        */
+                var a = Uadc_Umv(Vout_pougay);
+                if (a > 0.5) document.getElementById("vout").innerHTML = a;
+                //.toFixed(2)+' V';
+                else document.getElementById("vout").innerHTML = "< 0.5V";
+                document.getElementById("vout_pop").innerHTML =
+                    Vout_pougay + "pop";
+            }
+            //A2 start from 33280 step 256
+            // var ADC2popTo_ma_lock = [
+            //     1, 346, 691, 1036, 1381, 1726, 2071, 2416, 2761, 3208, 3522,
+            //     3849, 4160, 4463, 4762, 5076, 5396, 5700, 6023, 6363, 6712,
+            //     7046, 7378, 7698, 8012, 8315, 8680, 9014, 9365, 9654, 9946,
+            //     10352, 10678, 11018, 11337, 11763, 12104, 12461, 12753, 13086,
+            //     13553, 13909, 14237, 14617, 15011, 15439, 15721, 16134, 16558,
+            //     16900, 17184, 17679, 18085, 18401, 18775, 19334, 19707, 20204,
+            //     20608, 20917, 21147, 21900, 22607, 23199, 23779, 24223, 24722,
+            //     25291, 25825, 26287, 26644, 27144, 27733, 28113, 28565, 29178,
+            //     29750,
+            // ];
+            var ADC2popTo_ma_lock = [
+                1, 659, 1138, 1417, 1756, 2038, 2350, 2619, 2971, 3240, 3522,
+                3849, 4160, 4463, 4762, 5076, 5396, 5700, 6023, 6363, 6712,
+                7046, 7378, 7698, 8012, 8315, 8680, 9014, 9365, 9654, 9946,
+                10352, 10678, 11018, 11337, 11763, 12104, 12461, 12753, 13086,
+                13553, 13909, 14237, 14617, 15011, 15439, 15721, 16134, 16558,
+                16900, 17184, 17679, 18085, 18401, 18775, 19334, 19707, 20204,
+                20608, 20917, 21147, 21900, 22607, 23199, 23779, 24223, 24722,
+                25291, 25825, 26287, 26644, 27144, 27733, 28113, 28565, 29178,
+                29750, 29178, 29750, 30322, 30894, 31466, 32038, 32610, 33182,
+                33754, 34326, 34898, 35470, 36042, 36614, 37186, 37758, 38330,
+                38902, 39474, 40046,
+            ];
+
+            var ADC5popTo_mV = new Array();
+            var ADC5popTo_mV_lock = [
+                256, 471, 682, 886, 1084, 1788, 1971, 2147, 2315, 2985, 3133,
+                3783, 3814, 4520, 4776, 5196, 5768, 5920, 6593, 6785, 7396,
+                7574, 8064, 8572, 8745, 9422, 9513, 10197, 10322, 10848, 11486,
+                11574, 12180, 12787, 12890, 13508, 13622, 14221, 14835, 14938,
+                15556, 15657, 16326, 16437, 17018, 17664, 17750, 18369, 18483,
+                19119, 19232, 19869, 19995, 20611, 20758, 21404, 21540, 22184,
+                22320, 22963, 23100, 23739, 23876, 24499, 24615, 25225, 25814,
+                25889, 26491, 27063, 27589, 28148, 28668, 29168, 29688, 30190,
+                30659, 31134, 31620, 31793, 32041, 32358, 32563, 33250, 33152,
+                33055, 33784, 33940, 34091, 34753, 34891, 35562, 35723, 35871,
+                36535, 36693, 37367, 37501, 37662, 38323, 38471, 39133, 39285,
+                39924, 40065, 40704, 40863, 41075, 41235, 41888, 42038, 42687,
+                42800, 43478, 43594, 44207, 44342, 44967, 45554, 45629, 46217,
+                46804, 46879, 47466, 48053, 48640, 48715, 49302, 49889, 49964,
+                50551, 51139, 51214, 51801, 52388, 52975, 53050, 53637, 54224,
+                54299, 54886,
+            ];
+            // Offset ==0x1100; Step=0x100
+            //const uint16_t ADC5popTo_mV[] real data from C used for interpolation
+            ADC5popTo_mV = [
+                0, 150, 400, 700, 1184, 1480, 1776, 2072, 2370, 2488, 2606,
+                2688, 2753, 2824, 2928, 3013, 3120, 3275, 3437, 3598, 3761,
+                3923, 4085, 4248, 4409, 4573, 4733, 4897, 5059, 5222, 5386,
+                5545, 5704, 5870, 6032, 6193, 6355, 6518, 6679, 6837, 6998,
+                7158, 7317, 7475, 7635, 7797, 7955, 8114, 8272, 8429, 8587,
+                8742, 8904, 9064, 9221, 9379, 9537, 9698, 9858, 10014, 10177,
+                10335, 10499, 10660, 10818, 10980, 11138, 11301, 11461, 11627,
+                11787, 11950, 12113, 12272, 12437, 12601, 12770, 12933, 13105,
+                13274, 13439, 13605, 13776, 13950, 14121, 14296, 14465, 14636,
+                14808, 14977, 15157, 15323, 15488, 15655, 15820, 15982, 16147,
+                16307, 16460, 16604, 16752, 16904, 17048, 17185, 17325, 17479,
+                17613, 17745, 17873, 18003, 18122, 18246, 18363, 18486, 18616,
+                18733, 18859, 18993, 19106, 19213, 19336, 19451, 19567, 19677,
+                19796, 19923, 20023, 20603, 20744, 20880, 21008, 21732, 21900,
+                22063, 22241, 22409, 22578, 22738, 22909, 23084, 23252, 23421,
+                23587, 23754, 23920, 24076, 24242, 24405, 24566, 24731, 24891,
+                25051, 25203, 25361, 25510, 25650, 25800, 25950, 26090, 26240,
+                26390, 26610, 26760, 26910, 27040, 27210, 27340, 27490, 27620,
+                27770, 27910, 28040, 28160, 28300, 28420, 28550, 28670, 28790,
+                28910, 29030, 29150, 29270, 29390, 29510, 29630, 29750, 29870,
+                29990, 30110, 30230, 30350, 30470, 30590, 30710, 30830, 30950,
+                31070, 31190, 31310, 31430, 31550, 31670, 31790, 31910, 32030,
+                32150, 32270, 32390, 32510, 32630, 32750, 32870, 32990, 33110,
+                33230, 33350,
+            ];
+            var Data_mV_ToADC5pop = new Array();
+            //call onLoad for complete array Data_mV_ToADC5pop from ADC5popTo_mV
+            function interpolation() {
+                for (i = 0; i < ADC5popTo_mV_lock.length; i++) {
+                    Data_mV_ToADC5pop[i] = ADC5popTo_mV_lock[i];
+                }
+                // let i = 0,
+                //     step = 256,
+                //     offset = 0;
+                // for (i = 0; i < 65535; i += step) {
+                //     let OffsetPop = 0;
+                //     for (
+                //         OffsetPop = 0;
+                //         OffsetPop < ADC5popTo_mV.length;
+                //         OffsetPop++
+                //     ) {
+                //         if (ADC5popTo_mV[OffsetPop] > i) break;
+                //     }
+                //     let calc = (OffsetPop - 1) * 256; //1024 +
+                //     calc +=
+                //         (ADC5popTo_mV[OffsetPop] - i) *
+                //         (step /
+                //             (ADC5popTo_mV[OffsetPop] -
+                //                 ADC5popTo_mV[OffsetPop - 1]));
+                //     if (!isNaN(calc)) {
+                //         log((i / step).toFixed() + "=" + calc.toFixed(0));
+                //         Data_mV_ToADC5pop[i / step] = parseInt(calc.toFixed(0));
+                //     }
+                // }
+                // Data_mV_ToADC5pop[42] += 50;
+                // Data_mV_ToADC5pop[43] += 50;
+            }
+        </script>
+
+        <script>
+            // Получение ссылок на элементы UI
+            let connectButton = document.getElementById("connect");
+            let stopButton = document.getElementById("stop");
+            let disconnectButton = document.getElementById("disconnect");
+            let clearButton = document.getElementById("clear");
+            let terminalContainer = document.getElementById("terminal");
+            let sendForm = document.getElementById("send-form");
+            let inputField = document.getElementById("input");
+            let writecharacter = 0;
+            // V_GET: <span id="get_vout">%123,45% V </span>
+            //         <span id="get_vout_pop">%1234% pop </span>
+            let Uin_dc = document.getElementById("Uin_dc");
+            let state_err = document.getElementById("state_err");
+            let get_vout = document.getElementById("get_vout");
+            let get_vout_pop = document.getElementById("get_vout_pop");
+            let Err_vout_pop = document.getElementById("Err_vout_pop");
+            let get_vout_tester = document.getElementById("state");
+            /////////////////////Start Setup1
+            // Получение ссылок на элементы UI 1
+            let connectButton1 = document.getElementById("connect1");
+            let stopButton1 = document.getElementById("stop1");
+            let disconnectButton1 = document.getElementById("disconnect1");
+            //let clearButton1 = document.getElementById('clear1');
+            //let terminalContainer1 = document.getElementById('terminal1');
+            // let sendForm1 = document.getElementById("send-form1");
+            // let inputField1 = document.getElementById("input1");
+            let writecharacter1 = 0;
+            // Подключение к устройству при нажатии на кнопку Connect
+            connectButton1.addEventListener("click", function () {
+                connect1();
+            });
+            // не принимать сообщуния при нажатии на кнопку Connect
+            stopButton1.addEventListener("click", function () {
+                stop1();
+            });
+            /////////////////////worckuper for Setup1 start
+            // Кэш объекта выбранного устройства
+            let deviceCache1 = null;
+            // Кэш объекта характеристики
+            let characteristicCache1 = null;
+            // Промежуточный буфер для входящих данных
+            let readBuffer1 = "";
+            // Запустить выбор Bluetooth устройства и подключиться к выбранному
+            function connect1() {
+                return (
+                    deviceCache1
+                        ? Promise.resolve(deviceCache1)
+                        : requestBluetoothDevice1()
+                )
+                    .then((device) =>
+                        connectDeviceAndCacheCharacteristic1(device)
+                    )
+                    .then((characteristic) =>
+                        startNotifications1(characteristic)
+                    )
+                    .catch((error) => log(error));
+            }
+            // Запрос выбора Bluetooth устройства
+            function requestBluetoothDevice1() {
+                log("Requesting bluetooth device...");
+                return navigator.bluetooth
+                    .requestDevice({
+                        filters: [
+                            {
+                                name: "CH9143BLE2U",
+                                // services: [0xfff0],
+                            },
+                        ],
+                        optionalServices: [0xfff0],
+                    })
+                    .then((device) => {
+                        log('"' + device.name + '" bluetooth device selected');
+                        deviceCache1 = device;
+                        deviceCache1.addEventListener(
+                            "gattserverdisconnected",
+                            handleDisconnection1
+                        );
+                        return deviceCache1;
+                    });
+            }
+            // Обработчик разъединения
+            function handleDisconnection1(event) {
+                let device = event.target;
+                log(
+                    '"' +
+                        device.name +
+                        '" bluetooth device disconnected, trying to reconnect...'
+                );
+                connectDeviceAndCacheCharacteristic1(device)
+                    .then((characteristic) =>
+                        startNotifications(characteristic)
+                    )
+                    .catch((error) => log(error));
+            }
+
+            // Подключение к определенному устройству, получение сервиса и характеристики
+            function connectDeviceAndCacheCharacteristic1(device) {
+                if (device.gatt.connected && characteristicCache1) {
+                    return Promise.resolve(characteristicCache1);
+                }
+                log("Connecting to GATT server...");
+                return device.gatt
+                    .connect()
+                    .then((server) => {
+                        log("GATT server connected, getting service...");
+
+                        //        return server.getPrimaryService(0xFFE0);
+                        return server.getPrimaryService(0xfff0);
+                        //return server.getPrimaryService(server.getPrimaryServices()[0].UUID);
+                    })
+                    .then((service) => {
+                        log("Service found, getting characteristic...");
+
+                        //        return service.getCharacteristic(0xFFE1);
+                        return service.getCharacteristics(); //0xFFF1
+                    })
+                    .then((characteristic) => {
+                        log("Characteristic found");
+                        characteristicCache1 = characteristic[0];
+                        writecharacter1 = characteristic[1];
+
+                        return characteristicCache1;
+                    });
+            }
+            // Включение получения уведомлений об изменении характеристики
+            function startNotifications1(characteristic) {
+                log("Starting notifications...");
+                return characteristic.startNotifications().then(() => {
+                    characteristic.addEventListener(
+                        "characteristicvaluechanged",
+                        handleCharacteristicValueChanged1
+                    );
+                    log("Notifications started");
+                });
+            }
+
+            // Получение данных
+            function msb(lsb) {
+                var mm = 128,
+                    ml = 1,
+                    b = 0;
+                for (i = 0; i < 8; i++) {
+                    if ((lsb & mm) == mm) {
+                        b += ml;
+                    }
+                    mm = mm >> 1;
+                    ml = (ml << 1) & 255;
+                }
+                return b;
+            }
+            var s_DMM, s_SevSeg;
+            function digit(dig) {
+                s_SevSeg += "s_SevSeg" + dig + "\n ";
+                if (dig > 127) {
+                    s_DMM += ".";
+                }
+                var d7 = dig & 0x7f;
+                if (d7 == 0) {
+                    s_DMM += " ";
+                }
+                if (d7 == 0x7d) {
+                    s_DMM += "0";
+                }
+                if (d7 == 0x05) {
+                    s_DMM += "1";
+                }
+                if (d7 == 0x5b) {
+                    s_DMM += "2";
+                }
+                if (d7 == 0x1f) {
+                    s_DMM += "3";
+                }
+                if (d7 == 0x27) {
+                    s_DMM += "4";
+                }
+                if (d7 == 0x3e) {
+                    s_DMM += "5";
+                }
+                if (d7 == 0x7e) {
+                    s_DMM += "6";
+                }
+                if (d7 == 0x15) {
+                    s_DMM += "7";
+                }
+                if (d7 == 0x7f) {
+                    s_DMM += "8";
+                }
+                if (d7 == 0x3f) {
+                    s_DMM += "9";
+                }
+                if (d7 == 0x77) {
+                    s_DMM += "A";
+                }
+                if (d7 == 0x4c) {
+                    s_DMM += "u";
+                }
+                if (d7 == 0x6a) {
+                    s_DMM += "t";
+                }
+                if (d7 == 0x4e) {
+                    s_DMM += "o";
+                }
+                if (d7 == 0x68) {
+                    s_DMM += "L";
+                }
+                // s_DMM += "_" + d7 + "_";
+            }
+            function handleCharacteristicValueChanged1(event) {
+                /////////////////////DMM start
+                /////////////////For 10-byte DMM Aneng V05B
+                // const byteArray = event.target.value.buffer; //
+                // const int8Array = new Int8Array(byteArray);
+                // var str_out = "";
+                // var ai_DMM = [];
+                // var ai_XOR = [
+                //     0x41, 0x21, 0x73, 0x55, 0xa2, 0xc1, 0x32, 0x71, 0x66, 0xaa,
+                //     0x3b, 0xd0, 0xe2,
+                // ];
+                // for (ii = 0; ii < int8Array.length; ii++) {
+                //     ai_DMM[ii] = msb(int8Array[ii] ^ ai_XOR[ii]);
+                // }
+                // s_DMM = "";
+                // s_SevSeg = "";
+                // s_OPT = "BT ";
+                // s_UNIT = "";
+                // s_PRE = "";
+                // digit(16 * (ai_DMM[3] & 15) + (ai_DMM[4] >> 4)); //3b(3_0)4b(7_4)
+                // digit(16 * (ai_DMM[4] & 15) + (ai_DMM[5] >> 4)); //4b(3_0)5b(7_4)
+                // digit(16 * (ai_DMM[5] & 15) + (ai_DMM[6] >> 4)); //5b(3_0)6b(7_4)
+                // digit(16 * (ai_DMM[6] & 15) + (ai_DMM[7] >> 4)); //6b(3_0)7b(7_4)
+                // // console.log(s_SevSeg + "=>" + s_DMM + "\n");
+                // if (ai_DMM[3] & 0x40) {
+                //     s_OPT += "HOLD ";
+                // }
+                // if (ai_DMM[8] & 0x80) {
+                //     s_PRE += "nano";
+                // }
+                // if (ai_DMM[8] & 0x40) {
+                //     s_UNIT += "Volt";
+                // }
+                // if (ai_DMM[8] & 0x20) {
+                //     s_OPT += "( )";
+                // } //?
+                // if (ai_DMM[8] & 0x10) {
+                //     s_OPT += "BT ";
+                // } //?
+                // if (ai_DMM[8] & 0x08) {
+                //     s_UNIT += "Farad";
+                // }
+                // if (ai_DMM[8] & 0x04) {
+                //     s_OPT += " -|>- ";
+                // }
+                // if (ai_DMM[8] & 0x02) {
+                //     s_OPT += " :) ";
+                // } //? Speaker
+                // if (ai_DMM[8] & 0x01) {
+                //     s_PRE += "micro";
+                // }
+                // if (ai_DMM[9] & 0x80) {
+                //     s_UNIT += "Ohm";
+                // }
+                // if (ai_DMM[9] & 0x40) {
+                //     s_PRE += "kilo";
+                // }
+                // if (ai_DMM[9] & 0x20) {
+                //     s_PRE += "milli";
+                // } // ?
+                // if (ai_DMM[9] & 0x10) {
+                //     s_PRE += "Mega";
+                // }
+                // if (ai_DMM[9] & 0x08) {
+                //     s_UNIT += "Ampere";
+                // } // ?
+                // if (ai_DMM[9] & 0x04) {
+                //     s_UNIT += "Hz";
+                // }
+                // if (ai_DMM[9] & 0x02) {
+                //     s_UNIT += "'F";
+                // }
+                // if (ai_DMM[9] & 0x01) {
+                //     s_UNIT += "'C";
+                // }
+                // if (s_DMM == "Auto") {
+                //     s_PRE += "Auto";
+                // }
+                // console.log(
+                //     s_PRE + " " + s_UNIT + " " + s_DMM + " " + s_OPT + "\n"
+                // );
+                // log(s_PRE + " " + s_UNIT + " " + s_DMM + " " + s_OPT + "\n");
+                /////////////////////DMM end
+
+                //for string type of data from zoi 703
+                let value = new TextDecoder().decode(event.target.value);
+                let data = value.trim();
+                if (data) {
+                    receive(data);
+                }
+
+                //for string type of data whith \n
+                // let value = new TextDecoder().decode(event.target.value);
+                // for (let c of value) {
+                //     if (c === "\n") {
+                //         let data = readBuffer1.trim();
+                //         readBuffer1 = "";
+                //         if (data) {
+                //             receive(data);
+                //             if (tstStatus == 1) tstNextStep(data);
+                //         }
+                //     } else {
+                //         readBuffer1 += c;
+                //     }
+                // }
+            }
+            // не принимать сообщения
+            function stop1() {
+                if (characteristicCache1) {
+                    log(
+                        'stopNotifications "' +
+                            deviceCache1.name +
+                            '"from bluetooth device...'
+                    );
+                    return characteristicCache1
+                        .stopNotifications()
+                        .then(() => {
+                            log("> Notifications stopped");
+                        })
+                        .catch((error) => {
+                            log("Argh! " + error);
+                        });
+                }
+            }
+            // Отключиться от подключенного устройства
+            function disconnect1() {
+                if (characteristicCache1) {
+                    log(
+                        'stopNotifications "' +
+                            deviceCache1.name +
+                            '"from bluetooth device...'
+                    );
+                    characteristicCache1
+                        .stopNotifications()
+                        .then(() => {
+                            log("> Notifications stopped");
+                        })
+                        .catch((error) => {
+                            log("Argh! " + error);
+                        });
+
+                    log("Notifications stoped");
+                    characteristicCache1.removeEventListener(
+                        "characteristicvaluechanged",
+                        handleCharacteristicValueChanged1
+                    );
+                }
+
+                if (deviceCache1) {
+                    log(
+                        'Disconnecting from "' +
+                            deviceCache1.name +
+                            '" bluetooth device...'
+                    );
+                    deviceCache1.removeEventListener(
+                        "gattserverdisconnected",
+                        handleDisconnection1
+                    );
+
+                    if (deviceCache1.gatt.connected) {
+                        deviceCache1.gatt.disconnect();
+                        log(
+                            '"' +
+                                deviceCache1.name +
+                                '" bluetooth device disconnected'
+                        );
+                    } else {
+                        log(
+                            '"' +
+                                deviceCache1.name +
+                                '" bluetooth device is already disconnected'
+                        );
+                    }
+                }
+                deviceCache1 = null;
+            }
+            // Отправить данные подключенному устройству
+            // function send1(data) {
+            //     data = String(data);
+            //     if (!data || !characteristicCache1) {
+            //         return;
+            //     }
+            //     data += "\r";
+            //     data += "\n";
+            //     if (data.length > 100) {
+            //         let chunks = data.match(/(.|[\r\n]){1,20}/g);
+            //         writeToCharacteristic(characteristicCache1, chunks[0]);
+            //         for (let i = 1; i < chunks.length; i++) {
+            //             setTimeout(() => {
+            //                 writeToCharacteristic(
+            //                     characteristicCache1,
+            //                     chunks[i]
+            //                 );
+            //             }, i * 100);
+            //         }
+            //     } else {
+            //         writeToCharacteristic(writecharacter1, data); //writecharacter
+            //     }
+            //     log(data, "out");
+            // }
+            // // Записать значение в характеристику
+            // function writeToCharacteristic(characteristic, data) {
+            //     var aa = new TextEncoder().encode(data);
+            //     characteristic.writeValueWithoutResponse(aa).then((_) => {
+            //         console.log("OK");
+            //     });
+            // }
+
+            /////////////////////worckuper for Setup1 end
+            /////////////////////END Setup1
+
+            // Отключение от устройства при нажатии на кнопку Disconnect
+            disconnectButton1.addEventListener("click", function () {
+                disconnect1();
+            });
+
+            // Подключение к устройству при нажатии на кнопку Connect
+            connectButton.addEventListener("click", function () {
+                connect();
+            });
+            // не принимать сообщуния при нажатии на кнопку Connect
+            stopButton.addEventListener("click", function () {
+                stop();
+            });
+
+            // Отключение от устройства при нажатии на кнопку Disconnect
+            disconnectButton.addEventListener("click", function () {
+                disconnect();
+            });
+
+            // Очистка листа при нажатии на кнопку clear
+            clearButton.addEventListener("click", function () {
+                clear();
+            });
+
+            // Обработка события отправки формы
+            sendForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Предотвратить отправку формы
+                send(inputField.value); // Отправить содержимое текстового поля
+                inputField.value = ""; // Обнулить текстовое поле
+                inputField.focus(); // Вернуть фокус на текстовое поле
+            });
+
+            // Кэш объекта выбранного устройства
+            let deviceCache = null;
+
+            // Кэш объекта характеристики
+            let characteristicCache = null;
+
+            // Промежуточный буфер для входящих данных
+            let readBuffer = "";
+
+            //Очистка листа
+            function clear() {
+                //terminalContainer.remove();
+                while (terminalContainer.firstChild) {
+                    terminalContainer.removeChild(terminalContainer.lastChild);
+                }
+            }
+
+            // Запустить выбор Bluetooth устройства и подключиться к выбранному
+            function connect() {
+                return (
+                    deviceCache
+                        ? Promise.resolve(deviceCache)
+                        : requestBluetoothDevice()
+                )
+                    .then((device) =>
+                        connectDeviceAndCacheCharacteristic(device)
+                    )
+                    .then((characteristic) =>
+                        startNotifications(characteristic)
+                    )
+                    .catch((error) => log(error));
+            }
+
+            // Запрос выбора Bluetooth устройства
+            function requestBluetoothDevice() {
+                log("Requesting bluetooth device...");
+
+                return navigator.bluetooth
+                    .requestDevice({
+                        //    filters: [{services: [0xFFE0]}],
+                        filters: [{ services: [0xfff0] }],
+                    })
+                    .then((device) => {
+                        log('"' + device.name + '" bluetooth device selected');
+                        deviceCache = device;
+                        deviceCache.addEventListener(
+                            "gattserverdisconnected",
+                            handleDisconnection
+                        );
+
+                        return deviceCache;
+                    });
+            }
+
+            // Обработчик разъединения
+            function handleDisconnection(event) {
+                let device = event.target;
+
+                log(
+                    '"' +
+                        device.name +
+                        '" bluetooth device disconnected, trying to reconnect...'
+                );
+
+                connectDeviceAndCacheCharacteristic(device)
+                    .then((characteristic) =>
+                        startNotifications(characteristic)
+                    )
+                    .catch((error) => log(error));
+            }
+
+            // Подключение к определенному устройству, получение сервиса и характеристики
+            function connectDeviceAndCacheCharacteristic(device) {
+                if (device.gatt.connected && characteristicCache) {
+                    return Promise.resolve(characteristicCache);
+                }
+
+                log("Connecting to GATT server...");
+
+                return device.gatt
+                    .connect()
+                    .then((server) => {
+                        log("GATT server connected, getting service...");
+
+                        //        return server.getPrimaryService(0xFFE0);
+                        return server.getPrimaryService(0xfff0);
+                        //return server.getPrimaryService(server.getPrimaryServices()[0].UUID);
+                    })
+                    .then((service) => {
+                        log("Service found, getting characteristic...");
+
+                        //        return service.getCharacteristic(0xFFE1);
+                        return service.getCharacteristics(); //0xFFF1
+                    })
+                    .then((characteristic) => {
+                        log("Characteristic found");
+                        characteristicCache = characteristic[0];
+                        writecharacter = characteristic[1];
+
+                        return characteristicCache;
+                    });
+            }
+
+            // Включение получения уведомлений об изменении характеристики
+            function startNotifications(characteristic) {
+                log("Starting notifications...");
+
+                return characteristic.startNotifications().then(() => {
+                    characteristic.addEventListener(
+                        "characteristicvaluechanged",
+                        handleCharacteristicValueChanged
+                    );
+                    log("Notifications started");
+                });
+            }
+
+            // Получение данных
+            function handleCharacteristicValueChanged(event) {
+                let value = new TextDecoder().decode(event.target.value);
+
+                for (let c of value) {
+                    if (c === "\n") {
+                        let data = readBuffer.trim();
+                        readBuffer = "";
+
+                        if (data) {
+                            receive(data);
+                        }
+                    } else {
+                        readBuffer += c;
+                    }
+                }
+            }
+
+            // Обработка полученных данных
+            function receive(data) {
+                log(data, "in");
+            }
+
+            // не принимать сообщения
+            function stop() {
+                if (characteristicCache) {
+                    log(
+                        'stopNotifications "' +
+                            deviceCache.name +
+                            '"from bluetooth device...'
+                    );
+                    return characteristicCache
+                        .stopNotifications()
+                        .then(() => {
+                            log("> Notifications stopped");
+                        })
+                        .catch((error) => {
+                            log("Argh! " + error);
+                        });
+                }
+            }
+            // Отключиться от подключенного устройства
+            function disconnect() {
+                if (characteristicCache) {
+                    log(
+                        'stopNotifications "' +
+                            deviceCache.name +
+                            '"from bluetooth device...'
+                    );
+                    characteristicCache
+                        .stopNotifications()
+                        .then(() => {
+                            log("> Notifications stopped");
+                        })
+                        .catch((error) => {
+                            log("Argh! " + error);
+                        });
+
+                    log("Notifications stoped");
+                    characteristicCache.removeEventListener(
+                        "characteristicvaluechanged",
+                        handleCharacteristicValueChanged
+                    );
+                }
+
+                if (deviceCache) {
+                    log(
+                        'Disconnecting from "' +
+                            deviceCache.name +
+                            '" bluetooth device...'
+                    );
+                    deviceCache.removeEventListener(
+                        "gattserverdisconnected",
+                        handleDisconnection
+                    );
+
+                    if (deviceCache.gatt.connected) {
+                        deviceCache.gatt.disconnect();
+                        log(
+                            '"' +
+                                deviceCache.name +
+                                '" bluetooth device disconnected'
+                        );
+                    } else {
+                        log(
+                            '"' +
+                                deviceCache.name +
+                                '" bluetooth device is already disconnected'
+                        );
+                    }
+                }
+
+                deviceCache = null;
+            }
+
+            // Отправить данные подключенному устройству
+            function send(data) {
+                data = String(data);
+
+                if (!data || !characteristicCache) {
+                    return;
+                }
+
+                data += "\r";
+                data += "\n";
+
+                if (data.length > 20) {
+                    let chunks = data.match(/(.|[\r\n]){1,20}/g);
+                    writeToCharacteristic(characteristicCache, chunks[0]);
+                    for (let i = 1; i < chunks.length; i++) {
+                        setTimeout(() => {
+                            writeToCharacteristic(
+                                characteristicCache,
+                                chunks[i]
+                            );
+                        }, i * 100);
+                    }
+                } else {
+                    writeToCharacteristic(writecharacter, data); //writecharacter
+                }
+                //                send("W06" + Uref_pop.toString(16).toUpperCase() + "l05\r\n");
+                log(data, "out");
+                // if (data.includes("W06")) {
+                //     let a_str = document.getElementById("vout").innerHTML;
+                //     let a_number = parseFloat(a_str);
+                //     a_number *= 1000;
+                //     a_str = parseInt(a_number.toFixed(0)).toString(16); //.toUpperCase();
+                //     log("UR=" + a_str + "\r\n");
+                // }
+                if (data.includes("W0A")) {
+                    let a_str = document.getElementById("vout").innerHTML;
+                    let a_number = parseFloat(a_str);
+                    a_number *= 1000;
+                    a_str = parseInt(a_number.toFixed(0)).toString(16); //.toUpperCase();
+                    log("UR=" + a_str + "\r\n");
+                }
+            }
+
+            // Записать значение в характеристику
+            function writeToCharacteristic(characteristic, data) {
+                var aa = new TextEncoder().encode(data);
+                characteristic.writeValueWithoutResponse(aa).then((_) => {
+                    console.log("OK");
+                });
+            }
+
+            // Вывод в терминал
+            var UO_int, UI_int, IO_int;
+            function log(data, type = "") {
+                if (data.includes("UO=")) {
+                    let UO_str = data[3] + data[4] + data[5] + data[6];
+                    var tmp = document.getElementById("Vout_mv").innerHTML;
+                    tmp = parseFloat(tmp);
+                    tmp = tmp.toFixed(3);
+                    var tmp_ref_mV = tmp * 1000;
+                    UO_int = parseInt(UO_str, 16);
+                    get_vout.textContent =
+                        UO_str +
+                        " " +
+                        (parseInt(UO_str, 16) / 1000).toFixed(3) +
+                        "V ";
+                    var Err_val =
+                        100 - (100 * parseInt(UO_str, 16)) / tmp_ref_mV;
+                    Err_vout_pop.textContent = Err_val.toFixed(3) + "%";
+                }
+                if (data.includes("A5=")) {
+                    let A5_str = data[3] + data[4] + data[5] + data[6];
+
+                    get_vout_pop.textContent =
+                        A5_str + " " + parseInt(A5_str, 16) + "pop";
+                }
+                //id="Uin_dc"
+                if (data.includes("UI=")) {
+                    let UI_str = data[3] + data[4] + data[5] + data[6];
+                    UI_int = parseInt(UI_str, 16);
+                    Uin_dc.textContent =
+                        " " + (parseInt(UI_str, 16) / 100).toFixed(1);
+                }
+
+                //id="state"
+                //let get_vout_tester=   document.getElementById("state");
+                if (data.includes("Voltage:")) {
+                    let Volt_str =
+                        data.substring(
+                            data.indexOf("ge:") + 3,
+                            data.indexOf(" V")
+                        ) + "\n";
+                    get_vout_tester.textContent = Volt_str;
+
+                    var UO_tmp = get_vout.textContent.split(" ");
+                    var UO_split = parseFloat(UO_tmp[1]);
+                    var Err_val = 100 - (100 * UO_split) / parseFloat(Volt_str);
+                    state_err.textContent = Err_val.toFixed(3) + "%";
+                }
+                if (data.includes("A2=")) {
+                    let A2_str = data[3] + data[4] + data[5] + data[6];
+                    document.getElementById("iout_pop").innerHTML =
+                        A2_str + " " + parseInt(A2_str, 16) + "pop";
+                }
+                //document.getElementById("iout").innerHTML = b; //.toFixed(2);
+                if (data.includes("IO=")) {
+                    let IO_str = data[3] + data[4] + data[5] + data[6];
+                    IO_int = parseInt(IO_str, 16);
+                    document.getElementById("iout").innerHTML =
+                        IO_str + " " + parseInt(IO_str, 16) + "mA";
+                }
+                if (UO_int != -1 && UI_int != -1 && IO_int != -1) {
+                    //to Graf Chart
+                    Chartdata.labels.shift();
+                    // Chartdata.labels.push(
+                    //     Chartdata.labels[Chartdata.labels.length - 1] + 1
+                    // );
+                    //getMilliseconds()
+                    var TimeNaw = new Date();
+                    var Cifra = (
+                        TimeNaw.getSeconds() +
+                        TimeNaw.getMilliseconds() / 1000
+                    ).toFixed(3);
+                    Chartdata.labels.push(Cifra);
+                    Chartdata.datasets[0].data.shift();
+                    Chartdata.datasets[0].data.push(UO_int);
+                    Chartdata.datasets[1].data.shift();
+                    Chartdata.datasets[1].data.push(IO_int);
+                    Chartdata.datasets[2].data.shift();
+                    Chartdata.datasets[2].data.push(UI_int);
+                    UI_int = UO_int = IO_int = -1;
+                    chart.update();
+                    //to Graf Chart
+                }
+                terminalContainer.insertAdjacentHTML(
+                    "afterbegin", //beforeend
+                    "<div" +
+                        (type ? ' class="' + type + '"' : "") +
+                        ">" +
+                        data +
+                        "</div>"
+                );
+            }
+            function ADC2popTo_ma(popDec) {
+                //A2 start from 33280 step 256
+                // var ADC2popTo_ma_lock = [
+                let strt_IO_mA;
+                let offset = (popDec - 33280) >> 8;
+                if (offset < 0) {
+                    return (strt_IO_mA = "<0.5A");
+                }
+                if (offset > ADC2popTo_ma_lock.length - 1) {
+                    return (strt_IO_mA = ">33.5A");
+                }
+                let calc =
+                    ADC2popTo_ma_lock[offset] +
+                    ((ADC2popTo_ma_lock[offset + 1] -
+                        ADC2popTo_ma_lock[offset]) /
+                        256) *
+                        ((popDec - 33280) & 255);
+                return (strt_IO_mA = calc.toFixed(0));
+            }
+
+            function ChartOnLoad() {
+                for (i = 0; i < 40; i++) {
+                    xData.push(i);
+                    yData0.push(ADC5popTo_mV[i]);
+                    yData1.push(ADC5popTo_mV[i]);
+                    yData2.push(ADC5popTo_mV[i]);
+                }
+                createLineChart(xData, yData0, yData1, yData2);
+            }
+            const canvas = document.getElementById("idCanv");
+            let chart;
+            let Chartdata = {
+                //labels: xData,
+                datasets: [
+                    {
+                        label: "UO_mV",
+                        //data: yData1,
+                        pointStyle: 1, //false,
+                        fill: false, //true,
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "IO_mA",
+                        //data: yData2,
+                        pointStyle: 1, //false,
+                        fill: false, //true,
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "UI_mV",
+                        //data: yData3,
+                        pointStyle: 1, //false,
+                        fill: false, //true,
+                        borderWidth: 1,
+                    },
+                    // {
+                    //     label: "Data4",
+                    //     //data: yData4,
+                    //     pointStyle: 1, //false,
+                    //     fill: false, //true,
+                    //     borderWidth: 1,
+                    // },
+                    // {
+                    //     label: "Data5",
+                    //     //data: yData5,
+                    //     pointStyle: 1, //false,
+                    //     fill: false, //true,
+                    //     borderWidth: 1,
+                    // },
+                ],
+            };
+            let config = {
+                type: "line",
+                data: Chartdata,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 200, //40000
+                            max: 35000, //49000,
+                        },
+                        x: {
+                            min: 0,
+                            max: 2048,
+                        },
+                    },
+                },
+            };
+            const createLineChart = (
+                xData,
+                yData0,
+                yData1,
+                yData2
+                // yData2,
+                // yData3,
+                // yData4,
+                // yData5
+            ) => {
+                Chartdata.labels = xData;
+                Chartdata.datasets[0].data = yData0;
+                Chartdata.datasets[1].data = yData1;
+                Chartdata.datasets[2].data = yData2;
+                // data.datasets[1].data = yData2;
+                // data.datasets[2].data = yData3;
+                // data.datasets[3].data = yData4;
+                // data.datasets[4].data = yData5;
+                //const canvas = document.getElementById("idCanv");
+                const ctx = canvas.getContext("2d");
+                if (chart === undefined) chart = new Chart(ctx, config);
+                chart.update();
+            };
+        </script>
+    </body>
+</html>
+<!--prettier-ignore-start-->
+<!-- 
+{
+///////////////////////////
+const uint16_t ADC5popTo_mV[] = {
+    //    1426, 1544, 1662, 1780, 1898, 2016, 2134, 2252,
+    //    0, 221, 440, 654, 865, 1073, 1277, 1477,
+    //    0, 296, 592, 888, 1184, 1480, 1776, 2072,
+    0, 150, 400, 700, 1184, 1480, 1776, 2072,
+    2370, 2488, 2606, 2688, 2753, 2824, 2928, 3013,
+    3120, 3275, 3437, 3598, 3761, 3923, 4085, 4248,
+    4409, 4573, 4733, 4897, 5059, 5222, 5386, 5545,
+    5704, 5870, 6032, 6193, 6355, 6518, 6679, 6837,
+    6998, 7158, 7317, 7475, 7635, 7797, 7955, 8114,
+    8272, 8429, 8587, 8742, 8904, 9064, 9221, 9379,
+    9537, 9698, 9858, 10014, 10177, 10335, 10499, 10660,
+    10818, 10980, 11138, 11301, 11461, 11627, 11787, 11950,
+    12113, 12272, 12437, 12601, 12770, 12933, 13105, 13274,
+    13439, 13605, 13776, 13950, 14121, 14296, 14465, 14636,
+    14808, 14977, 15157, 15323, 15488, 15655, 15820, 15982,
+    16147, 16307, 16460, 16604, 16752, 16904, 17048, 17185,
+    17325, 17479, 17613, 17745, 17873, 18003, 18122, 18246,
+    18363, 18486, 18616, 18733, 18859, 18993, 19106, 19213,
+    19336, 19451, 19567, 19677, 19796, 19923, 20023, 20603,
+    20744, 20880, 21008, 21732, 21900, 22063, 22241, 22409,
+    22578, 22738, 22909, 23084, 23252, 23421, 23587, 23754,
+    23920, 24076, 24242, 24405, 24566, 24731, 24891, 25051,
+    25203, 25361, 25510, 25650, 25800, 25950, 26090, 26240,
+    26390, 26610, 26760, 26910, 27040, 27210, 27340, 27490,
+    27620, 27770, 27910, 28040, 28160, 28300, 28420, 28550,
+    28670, 28790, 28910, 29030, 29150, 29270, 29390, 29510,
+    29630, 29750, 29870, 29990, 30110, 30230, 30350, 30470,
+    30590, 30710, 30830, 30950, 31070, 31190, 31310, 31430,
+    31550, 31670, 31790, 31910, 32030, 32150, 32270, 32390,
+    32510, 32630, 32750, 32870, 32990, 33110, 33230, 33350};
+// called by l07_cmd
+void funcmVtoADC5()
+{
+  cmd_l05_f = 0;
+  uint32_t mV = options[10] + 1;       // 0x3e8=1000+1
+  uint32_t ofset = (mV * 50238) >> 23; // 5
+  // uint16_t ofset = ((mV - 0x00) >> 7);
+  // if (ofset > 215)
+  // {
+  //   ofset -= 40;
+  // }
+  if (ofset > 215)
+    ofset = 214;
+
+  if (mV < ADC5popTo_mV[ofset]) // 1001<1480
+  {
+    for (; ofset > 0; ofset--)
+    {
+      if (mV >= ADC5popTo_mV[ofset])
+        break;
+    }
+    options[6] = (ofset << 8) + (256 * (mV - ADC5popTo_mV[ofset])) / (ADC5popTo_mV[ofset + 1] - ADC5popTo_mV[ofset]); // 128;
+  }
+  else
+  {
+    for (; ofset < 214; ofset++)
+    {
+      if (mV <= ADC5popTo_mV[ofset])
+        break;
+    }
+    options[6] = (ofset << 8) - (256 * (ADC5popTo_mV[ofset] - mV)) / (ADC5popTo_mV[ofset] - ADC5popTo_mV[ofset - 1]); //- 128;
+  }
+}
+// called from wkpADC5 if adc5_rms32_prn redy and make options[9]
+void funcVoltFromADC5()
+{
+  // funcmVtoADC5(); // DEBUGG
+  uint32_t tmp = adc5_rms32_prn;
+  tmp = tmp >> 11;
+  uint32_t vout;
+  //  if (tmp > 0x1100)
+  if (tmp > 0x0)
+  {
+    // uint16_t ofset = ((tmp - 0x1100) >> 8);
+    // uint16_t ofset = ((tmp - 0x00) >> 8);
+    uint16_t ofset = tmp;
+    ofset >>= 8;
+    if (ofset < 216) // 160
+    {
+      vout = ADC5popTo_mV[ofset];
+      //      uint32_t calcul2 = (ADC5popTo_mV[ofset + 1] - ADC5popTo_mV[ofset]) * (tmp - (tmp & 256));
+      uint32_t calcul = (ADC5popTo_mV[ofset + 1] - ADC5popTo_mV[ofset]);
+      uint32_t calcul1 = ((tmp & 255));
+      uint32_t calcul2 = calcul1 * calcul;
+      vout += (calcul2 >> 8);
+    }
+    else
+      vout = 36333; // 33333
+  }
+  else
+    vout = 0; // 3222
+  vout &= 0xfffe;
+  vout |= (current_mode_f & 1);
+  options[9] = vout;
+  // if (cmd_l05_f == 0 && current_mode_f == 0 && SoftStarEnd_f == 1)
+  // {
+  //   if (options[9] < options[10])
+  //   {
+  //     if (options[6] < 0xD000)
+  //       options[6]++;
+  //   }
+  //   else
+  //   {
+  //     if (options[9] > options[10])
+  //       if (options[6] > 0x0800)
+  //         options[6]--;
+  //   }
+  // }
+}
+///////////////////////////
+}
+-->
+<!--prettier-ignore-end-->
