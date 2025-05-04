@@ -81,8 +81,15 @@
             }
             .VstateGet {
                 font-size: 1.5rem;
-                color: #a32c2c;
+                color: #1613e0;
                 font-weight: bold;
+                text-align: center;
+            }
+            .IstateGet {
+                font-size: 1.5rem;
+                color: #e01313;
+                font-weight: bold;
+                text-align: center;
             }
             .table {
                 margin: 0 auto;
@@ -115,7 +122,6 @@
         </style>
     </head>
     <body>
-        <!--.50hz..-->
         <div class="topnav" , id="topnav">
             <h1>40V 40A UltraLOWerror STATION</h1>
             <input type="checkbox" id="chBox1" onchange="DispSetup1()" />
@@ -128,13 +134,37 @@
         </div>
         <div class="content">
             <div class="card">
-                <!-- <h2>Output - GPIO 2</h2> -->
+                <table>
+                    <tr>
+                        <td>
+                            <!-- <input
+                            class="button"
+                            ,
+                            type="submit"
+                            ,
+                            value="Read"
+                            ,
+                            onclick="setVoutMV_M100();"
+                        /> -->
+                            <form id="ReadValForm">
+                                <input id="ReadValInput" type="text" />
+                                <button type="submit">READ</button>
+                            </form>
+                        </td>
+                        <td>
+                            <p id="Ansver" class="state">NONE</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="content">
+            <div class="card">
                 <p id="Tester" class="state">
                     Tester: <span id="state">%STATE%</span> V
                     <span id="state_err">err%</span>
                 </p>
                 <p class="state">
-                    <!-- <span style="float: left"> -->
                     <span style="float: left">
                         <input
                             class="customcb"
@@ -144,7 +174,8 @@
                             onchange="DispTopNav()"
                         />
                     </span>
-                    <span style="float: left">
+                    Uin dc: <span id="Uin_dc">000.0</span> V
+                    <span style="float: right">
                         <input
                             class="customcb"
                             style="float: left; background: rgb(0, 255, 145)"
@@ -153,18 +184,16 @@
                             onchange="DispGraf()"
                         />
                     </span>
-                    Uin dc: <span id="Uin_dc">000.0</span> V
                     <!-- <span id="state_err">err%</span> -->
                 </p>
-                <!-- <p><button id="button" class="button">Toggle</button></p> -->
                 <p class="VstateGet">
                     V_GET: <span id="get_vout">000,00 V </span>
-                    <span id="get_vout_pop">0000 pop </span>
-                    <span id="Err_vout_pop">0.0 % </span>
+                    <!-- <span id="get_vout_pop">0000 pop </span> -->
+                    <!-- <span id="Err_vout_pop">0.0 % </span> -->
                 </p>
                 <p class="state">
                     V_SET: <span id="vout">000,00 V </span>
-                    <span id="vout_pop">0000 pop </span>
+                    <!-- <span id="vout_pop">0000 pop </span> -->
                 </p>
                 <table class="table">
                     <tr>
@@ -202,7 +231,7 @@
                             />
                         </td>
                         <td>
-                            <p class="state">
+                            <p class="state" style="text-align: center">
                                 SET Vout: <span id="Vout_mv">5.00</span>
                             </p>
                         </td>
@@ -304,9 +333,9 @@
                         </td>
                     </tr>
                 </table> -->
-                <p class="state">
-                    IoutGET: <span id="iout">000,00</span> A
-                    <span id="iout_pop">0000 pop </span>
+                <p class="IstateGet">
+                    I_GET: <span id="iout">000,00 A</span>
+                    <!-- <span id="iout_pop">0000 pop </span> -->
                 </p>
                 <table class="table">
                     <tr>
@@ -344,7 +373,7 @@
                             />
                         </td>
                         <td>
-                            <p class="state">
+                            <p class="state" style="text-align: center">
                                 SET Iout: <span id="Iout_ma">33.00</span>
                             </p>
                         </td>
@@ -385,11 +414,10 @@
                 </table>
             </div>
         </div>
-        <!--.50hz..-->
         <div class="setup" id="Setup">
-            <div>
+            <!-- <div>
                 <p>interface2: sytem+ch9143(50:54:7B:56:C1:FC)-> to web:</p>
-            </div>
+            </div> -->
             <button id="connect" type="button">Connect</button>
             <button id="stop" type="button">Stop</button>
             <button id="disconnect" type="button">Disconnect</button>
@@ -425,11 +453,6 @@
             <button id="stop1" type="button">Stop</button>
             <button id="disconnect1" type="button">Disconnect</button>
         </div>
-        <!-- <div class="setup" id="SetTable">
-            <div>
-                <p>read table value ADC5popTo_mV</p>
-            </div>
-        </div> -->
         <div
             class="content"
             id="Graf"
@@ -440,14 +463,8 @@
         </div>
 
         <div id="terminal">terminal</div>
-
-        <!--... 
-<script src="main.js"></script>
-<script src="companion.js" data-service-worker="sw.js"></script>
--->
         <script src="app.js"></script>
         <script src="chart.js"></script>
-        <!-- <script src="index.js"></script> -->
         <script>
             ///////////////CHART
             let xData = [];
@@ -455,8 +472,6 @@
             let yData1 = [];
             let yData2 = [];
 
-            //var gateway = `ws://192.168.5.22/ws`;
-            //var websocket;
             function DispGraf() {
                 var tmp = document.getElementById("chBoxGraf");
                 if (tmp.checked)
@@ -520,8 +535,8 @@
             window.addEventListener("load", onLoad);
             function onLoad(event) {
                 ChartOnLoad();
-                //                initButton();
-                interpolation();
+                //initButton();
+                // interpolation();
             }
             function GetErr(Step) {
                 if (isNaN(Step)) {
@@ -560,13 +575,6 @@
                     log(Data_mV_ToADC5pop[i] + ",\n");
             }
             function setVoutMV_M001() {
-                // //to Graf Chart
-                // data.labels.shift();
-                // data.labels.push(data.labels[data.labels.length - 1] + 1);
-                // //                data.datasets[0].data = yData1;
-                // chart.update();
-                // //to Graf Chart
-
                 setVoutMVtoPOP(-0.01);
             }
             function setVoutMV_M010() {
@@ -856,6 +864,35 @@
                 // Data_mV_ToADC5pop[42] += 50;
                 // Data_mV_ToADC5pop[43] += 50;
             }
+        </script>
+        <script>
+            //<form id="ReadValForm">
+            //<input id="ReadValInput" type="text" />
+            //<button type="submit">READ</button>
+            // <p id="Ansver" class="state">NONE</p>
+            let ReadValForm = document.getElementById("ReadValForm");
+            let ReadValField = document.getElementById("ReadValInput");
+            let ReadValAnsver = document.getElementById("Ansver");
+            let CMDWaits = 0;
+            let CMDRes = 0;
+            ReadValForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Предотвратить отправку формы
+                send(ReadValField.value); // Отправить содержимое текстового поля
+                ReadValField.value = ""; // Обнулить текстовое поле
+                ReadValField.focus(); // Вернуть фокус на текстовое поле
+                CMDWaits = 1; //Date.now() + 10000;
+                CMDRes = "";
+                // while (CMDWaits > Date.now()) {}
+                //await new Promise(resolve => setTimeout(resolve, 500));
+                setTimeout(() => {
+                    if (CMDRes === "") {
+                        ReadValAnsver.textContent = "GoPa";
+                    } else {
+                        ReadValAnsver.textContent = CMDRes;
+                    }
+                    CMDWaits = 0;
+                }, 100);
+            });
         </script>
 
         <script>
@@ -1343,29 +1380,6 @@
             }
 
             // Запрос выбора Bluetooth устройства
-            // function requestBluetoothDevice() {
-            //     log("Requesting bluetooth device...");
-            //     return navigator.bluetooth
-            //         .requestDevice({
-            //             //    filters: [{services: [0xFFE0]}],
-            //             filters: [
-            //                 {
-            //                     name: "CH9143BLE2U",
-            //                     // services: [0xfff0]
-            //                 },
-            //             ],
-            //         })
-            //         .then((device) => {
-            //             log('"' + device.name + '" bluetooth device selected');
-            //             deviceCache = device;
-            //             deviceCache.addEventListener(
-            //                 "gattserverdisconnected",
-            //                 handleDisconnection
-            //             );
-
-            //             return deviceCache;
-            //         });
-            // }
             function requestBluetoothDevice() {
                 return navigator.bluetooth
                     .requestDevice({
@@ -1600,6 +1614,12 @@
             // Вывод в терминал
             var UO_int, UI_int, IO_int;
             function log(data, type = "") {
+                if (CMDWaits != 0) {
+                    if (data.length < 6 && data.length > 3) {
+                        CMDRes = data[0] + data[1] + data[2] + data[3];
+                        CMDRes = parseInt(CMDRes, 16);
+                    }
+                }
                 if (data.includes("UO=")) {
                     let UO_str = data[3] + data[4] + data[5] + data[6];
                     var tmp = document.getElementById("Vout_mv").innerHTML;
@@ -1608,20 +1628,18 @@
                     var tmp_ref_mV = tmp * 1000;
                     UO_int = parseInt(UO_str, 16);
                     get_vout.textContent =
-                        UO_str +
-                        " " +
-                        (parseInt(UO_str, 16) / 1000).toFixed(3) +
-                        "V ";
-                    var Err_val =
-                        100 - (100 * parseInt(UO_str, 16)) / tmp_ref_mV;
-                    Err_vout_pop.textContent = Err_val.toFixed(3) + "%";
+                        // UO_str +
+                        // " " +
+                        (parseInt(UO_str, 16) / 1000).toFixed(3) + " V";
+                    // var Err_val =
+                    //     100 - (100 * parseInt(UO_str, 16)) / tmp_ref_mV;
+                    // Err_vout_pop.textContent = Err_val.toFixed(3) + "%";
                 }
-                if (data.includes("A5=")) {
-                    let A5_str = data[3] + data[4] + data[5] + data[6];
-
-                    get_vout_pop.textContent =
-                        A5_str + " " + parseInt(A5_str, 16) + "pop";
-                }
+                // if (data.includes("A5=")) {
+                //     let A5_str = data[3] + data[4] + data[5] + data[6];
+                //     get_vout_pop.textContent =
+                //         A5_str + " " + parseInt(A5_str, 16) + "pop";
+                // }
                 //id="Uin_dc"
                 if (data.includes("UI=")) {
                     let UI_str = data[3] + data[4] + data[5] + data[6];
@@ -1645,17 +1663,18 @@
                     var Err_val = 100 - (100 * UO_split) / parseFloat(Volt_str);
                     state_err.textContent = Err_val.toFixed(3) + "%";
                 }
-                if (data.includes("A2=")) {
-                    let A2_str = data[3] + data[4] + data[5] + data[6];
-                    document.getElementById("iout_pop").innerHTML =
-                        A2_str + " " + parseInt(A2_str, 16) + "pop";
-                }
+                // if (data.includes("A2=")) {
+                //     let A2_str = data[3] + data[4] + data[5] + data[6];
+                //     document.getElementById("iout_pop").innerHTML =
+                //         A2_str + " " + parseInt(A2_str, 16) + "pop";
+                // }
                 //document.getElementById("iout").innerHTML = b; //.toFixed(2);
                 if (data.includes("IO=")) {
                     let IO_str = data[3] + data[4] + data[5] + data[6];
                     IO_int = parseInt(IO_str, 16);
                     document.getElementById("iout").innerHTML =
-                        IO_str + " " + parseInt(IO_str, 16) + "mA";
+                        // IO_str + " " +
+                        (parseInt(IO_str, 16) / 1000).toFixed(3) + " A";
                 }
                 if (UO_int != -1 && UI_int != -1 && IO_int != -1) {
                     //to Graf Chart
